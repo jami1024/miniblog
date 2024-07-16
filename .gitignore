@@ -12,6 +12,7 @@
 *.so
 *.dylib
 _output
+.idea
 
 # Test binary, built with `go test -c`
 *.test
@@ -53,6 +54,7 @@ Icon
 Network Trash Folder
 Temporary Items
 .apdisk
+
 
 ### macOS Patch ###
 # iCloud generated files

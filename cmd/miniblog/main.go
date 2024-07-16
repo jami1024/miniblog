@@ -6,6 +6,7 @@
 package main
 
 import (
+	"fmt"
 	"os"
 
 	"github.com/jami1024/miniblog/internal/miniblog"
@@ -14,6 +15,7 @@ import (
 
 // Go 程序的默认入口函数(主函数).
 func main() {
+	fmt.Println("hello")
 	command := miniblog.NewMiniBlogCommand()
 	if err := command.Execute(); err != nil {
 		os.Exit(1)
