@@ -7,8 +7,11 @@ package miniblog
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
+	"net/http"
 
+	"github.com/gin-gonic/gin"
 	"github.com/jami1024/miniblog/internal/pkg/log"
 	"github.com/jami1024/miniblog/pkg/version/verflag"
 	"github.com/spf13/cobra"
@@ -78,5 +81,31 @@ func run() error {
 	// 打印 db -> username 配置项的值
 	fmt.Println(viper.GetString("db.username"))
 	log.Infow(viper.GetString("db.username"))
+
+	// 设置 Gin 模式
+	gin.SetMode(viper.GetString("runmode"))
+
+	// 创建 Gin 引擎
+	g := gin.New()
+
+	// 注册 404 Handler.
+	g.NoRoute(func(c *gin.Context) {
+		c.JSON(http.StatusOK, gin.H{"code": 10003, "message": "Page not found."})
+	})
+
+	// 注册 /health handler.
+	g.GET("/health", func(c *gin.Context) {
+		c.JSON(http.StatusOK, gin.H{"status": "ok"})
+	})
+	// 创建 HTTP Server 实例
+	httpSrv := &http.Server{Addr: viper.GetString("addr"), Handler: g}
+
+	// 运行 HTTP 服务器
+	// 打印一条日志，用来提示 HTTP 服务已经起来，方便排障
+	log.Infow("Start to listening the incoming requests on http address", "addr", viper.GetString("addr"))
+	if err := httpSrv.ListenAndServe(); err != nil && !errors.Is(err, http.ErrServerClosed) {
+		log.Fatalw(err.Error())
+	}
+
 	return nil
 }
