@@ -13,6 +13,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/jami1024/miniblog/internal/pkg/log"
+	mw "github.com/jami1024/miniblog/internal/pkg/middleware"
 	"github.com/jami1024/miniblog/pkg/version/verflag"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -88,6 +89,9 @@ func run() error {
 	// 创建 Gin 引擎
 	g := gin.New()
 
+	// gin.Recovery() 中间件，用来捕获任何 panic，并恢复
+	mws := []gin.HandlerFunc{gin.Recovery(), mw.RequestID()}
+	g.Use(mws...)
 	// 注册 404 Handler.
 	g.NoRoute(func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{"code": 10003, "message": "Page not found."})
@@ -95,6 +99,7 @@ func run() error {
 
 	// 注册 /health handler.
 	g.GET("/health", func(c *gin.Context) {
+		log.C(c).Infow("Healthz function called")
 		c.JSON(http.StatusOK, gin.H{"status": "ok"})
 	})
 	// 创建 HTTP Server 实例
