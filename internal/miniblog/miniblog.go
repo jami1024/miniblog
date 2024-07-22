@@ -95,7 +95,7 @@ func run() error {
 	g := gin.New()
 
 	// gin.Recovery() 中间件，用来捕获任何 panic，并恢复
-	mws := []gin.HandlerFunc{gin.Recovery(), mw.NoCache, mw.Cors, mw.Secure mw.RequestID()}
+	mws := []gin.HandlerFunc{gin.Recovery(), mw.NoCache, mw.Cors, mw.Secure, mw.RequestID()}
 	g.Use(mws...)
 	// 注册 404 Handler.
 	g.NoRoute(func(c *gin.Context) {
