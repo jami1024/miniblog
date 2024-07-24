@@ -3,6 +3,7 @@ module github.com/jami1024/miniblog
 go 1.16
 
 require (
+	github.com/Shelnutt2/db2struct v1.0.2 // indirect
 	github.com/gin-gonic/gin v1.10.0
 	github.com/google/uuid v1.3.0
 	github.com/gosuri/uitable v0.0.4
