@@ -90,6 +90,11 @@ func run() error {
 	fmt.Println(viper.GetString("db.username"))
 	log.Infow(viper.GetString("db.username"))
 
+	// 初始化 store 层
+	if err := initStore(); err != nil {
+		return err
+	}
+
 	// 设置 Gin 模式
 	gin.SetMode(viper.GetString("runmode"))
 
