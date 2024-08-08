@@ -1,7 +1,9 @@
 package biz
 
-import "github.com/jami1024/miniblog/internal/miniblog/store"
-import "github.com/jami1024/miniblog/internal/miniblog/biz/user"
+import (
+	"github.com/jami1024/miniblog/internal/miniblog/biz/user"
+	"github.com/jami1024/miniblog/internal/miniblog/store"
+)
 
 // IBiz 定义Biz层需要实现的方法
 type IBiz interface {
