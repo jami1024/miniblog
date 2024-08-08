@@ -23,6 +23,7 @@ func NewBiz(ds store.IStore) *biz {
 	return &biz{ds: ds}
 }
 
+// Users 返回一个实现了 UserBiz 接口的实例.
 func (b *biz) Users() user.UserBiz {
 	return user.New(b.ds)
 }

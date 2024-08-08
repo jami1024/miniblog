@@ -13,7 +13,7 @@ import v1 "github.com/jami1024/miniblog/pkg/api/miniblog/v1"
 
 // UserBiz 定义了 user 模块在 biz 层所实现的方法.
 type UserBiz interface {
-	Create(ctx context.Context, r *v1.CreateUserRequest)
+	Create(ctx context.Context, r *v1.CreateUserRequest) error
 }
 
 // UserBiz 接口的实现.
@@ -26,9 +26,7 @@ var _UserBiz = (*userBiz)(nil)
 
 // New 创建一个实现了 UserBiz 接口的实例.
 func New(ds store.IStore) *userBiz {
-	return &userBiz{
-		ds: ds,
-	}
+	return &userBiz{ds: ds}
 }
 
 // Create 是 UserBiz 接口中 `Create` 方法的实现.
