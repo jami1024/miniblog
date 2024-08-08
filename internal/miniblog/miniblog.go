@@ -17,8 +17,6 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
-	"github.com/jami1024/miniblog/internal/pkg/core"
-	"github.com/jami1024/miniblog/internal/pkg/errno"
 	"github.com/jami1024/miniblog/internal/pkg/log"
 	mw "github.com/jami1024/miniblog/internal/pkg/middleware"
 	"github.com/jami1024/miniblog/pkg/version/verflag"
@@ -104,18 +102,11 @@ func run() error {
 	// gin.Recovery() 中间件，用来捕获任何 panic，并恢复
 	mws := []gin.HandlerFunc{gin.Recovery(), mw.NoCache, mw.Cors, mw.Secure, mw.RequestID()}
 	g.Use(mws...)
-	// 注册 404 Handler.
-	g.NoRoute(func(c *gin.Context) {
-		core.WriteResponse(c, errno.ErrPageNotFound, nil)
-		//c.JSON(http.StatusOK, gin.H{"code": 10003, "message": "Page not found."})
-	})
 
-	// 注册 /health handler.
-	g.GET("/health", func(c *gin.Context) {
-		log.C(c).Infow("Healthz function called")
-		core.WriteResponse(c, nil, map[string]string{"status": "ok"})
-		//c.JSON(http.StatusOK, gin.H{"status": "ok"})
-	})
+	if err := installRouters(g); err != nil {
+		return err
+	}
+
 	// 创建 HTTP Server 实例
 	httpSrv := &http.Server{Addr: viper.GetString("addr"), Handler: g}
 

@@ -1,3 +1,8 @@
+// Copyright 2023 jami1024 &lt;996013797@qq.com>. All rights reserved.
+// Use of this source code is governed by a MIT style
+// license that can be found in the LICENSE file. The original repo for
+// this file is https://github.com/jami1024/miniblog.
+
 package v1
 
 // CreateUserRequest 指定了 `POST /v1/users` 接口的请求参数.

@@ -1,3 +1,8 @@
+-- Copyright 2023 jami1024 &lt;996013797@qq.com>. All rights reserved.
+-- Use of this source code is governed by a MIT style
+-- license that can be found in the LICENSE file. The original repo for
+-- this file is https://github.com/jami1024/miniblog.
+
 -- MySQL dump 10.13  Distrib 8.3.0, for macos13.6 (x86_64)
 --
 -- Host: 127.0.0.1    Database: miniblog
