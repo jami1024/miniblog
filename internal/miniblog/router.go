@@ -13,6 +13,7 @@ import (
 	"github.com/jami1024/miniblog/internal/pkg/errno"
 	"github.com/jami1024/miniblog/internal/pkg/log"
 	mw "github.com/jami1024/miniblog/internal/pkg/middleware"
+	"github.com/jami1024/miniblog/pkg/auth"
 )
 
 // installRouters 安装 miniblog 接口路由.
@@ -29,7 +30,12 @@ func installRouters(g *gin.Engine) error {
 		core.WriteResponse(c, nil, map[string]string{"status": "ok"})
 	})
 
-	uc := user.New(store.S)
+	authz, err := auth.NewAuthz(store.S.DB())
+	if err != nil {
+		return err
+	}
+
+	uc := user.New(store.S, authz)
 	g.POST("/login", uc.Login)
 	// 创建 v1 路由分组
 	v1 := g.Group("/v1")
@@ -37,9 +43,13 @@ func installRouters(g *gin.Engine) error {
 		// 创建 users 路由分组
 		userv1 := v1.Group("/users")
 		{
+			// 创建用户
 			userv1.POST("", uc.Create)
+			// 修改用户密码
 			userv1.PUT(":name/change-password", uc.ChangePassword)
-			userv1.Use(mw.Authn())
+			userv1.Use(mw.Authn(), mw.Authz(authz))
+			// 获取用户详情
+			//userv1.GET(":name", uc.Ge)
 		}
 	}
 
