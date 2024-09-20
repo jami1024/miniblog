@@ -3,6 +3,7 @@ package middleware
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/jami1024/miniblog/internal/pkg/core"
+	"github.com/jami1024/miniblog/internal/pkg/errno"
 	"github.com/jami1024/miniblog/internal/pkg/known"
 	"github.com/jami1024/miniblog/internal/pkg/log"
 )
