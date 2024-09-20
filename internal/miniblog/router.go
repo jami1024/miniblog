@@ -49,7 +49,7 @@ func installRouters(g *gin.Engine) error {
 			userv1.PUT(":name/change-password", uc.ChangePassword)
 			userv1.Use(mw.Authn(), mw.Authz(authz))
 			// 获取用户详情
-			//userv1.GET(":name", uc.Ge)
+			userv1.GET(":name", uc.Get)
 		}
 	}
 
